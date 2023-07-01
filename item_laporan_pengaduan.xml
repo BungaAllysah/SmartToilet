@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:contentPadding="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tv_laporan_keterangan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Air mendadak kecil" />
+
+        <TextView
+            android:id="@+id/tv_laporan_judul"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            tools:text="Laporan 1" />
+
+        <TextView
+            android:id="@+id/tv_laporan_tanggal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            tools:text="2023-01-01 23:59:59" />
+
+        <TextView
+            android:id="@+id/tv_laporan_kereta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kereta 1/Gerbong 2" />
+
+        <TextView
+            android:id="@+id/tv_laporan_isi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            tools:text="Toilet kotor" />
+
+        <TextView
+            android:id="@+id/tv_laporan_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            tools:text="Sudah Teratasi" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="tv_laporan_judul,tv_laporan_tanggal,tv_laporan_kereta,tv_laporan_isi,tv_laporan_keterangan,tv_laporan_status"
+            app:flow_horizontalAlign="start"
+            app:flow_wrapMode="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <ImageButton
+            android:id="@+id/btn_pengaduan_delete"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:srcCompat="@drawable/ic_close" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
