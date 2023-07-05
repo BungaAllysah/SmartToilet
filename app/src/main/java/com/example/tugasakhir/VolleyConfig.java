@@ -8,7 +8,7 @@ public class VolleyConfig {
        // "http://192.168.51.35/tugas_akhir/";
             //"http://192.168.100.41/tugas_akhir/";
 
-    public static final String OTHER_HOST_URL = "https://smartoiletka.my.id/api/";
+    public static final String ANIN_HOST_URL = "https://smartoiletka.my.id/api/";
 }
 
 
