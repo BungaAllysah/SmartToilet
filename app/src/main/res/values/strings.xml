@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Smart Toilet</string>
+    <string name="todo">TODO</string>
+    <string name="smart_toilet">Smart Toilet</string>
+    <string name="selamat_datang">Selamat Datang</string>
+    <string name="kondektur">Kondektur</string>
+    <string name="halaman_pengaduan">Halaman Pengaduan</string>
+    <string name="nama">Nama</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="don_t_have_an_account_nregister_here">Don\'t have an Account?\nRegister here.</string>
+    <string name="welcome">Welcome</string>
+    <string name="re_enter_paasword">Re-enter Paasword</string>
+    <string name="already_registered_nlogin_here">Already Registered?\nLogin here.</string>
+    <string name="name">Name</string>
+    <string name="fields_cannot_be_empty">Fields cannot be empty!</string>
+</resources>

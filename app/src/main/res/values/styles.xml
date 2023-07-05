@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="buttonstyle1" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlHighlight">@color/white</item>
+        <item name="colorButtonNormal">@color/blue</item>
+    </style>
+    
+    <style name="menustyle"
+        parent="Theme.AppCompat.Light">
+         <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+</resources>
