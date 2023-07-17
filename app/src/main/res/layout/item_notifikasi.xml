@@ -8,6 +8,7 @@
     app:contentPadding="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root_notifikasi"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

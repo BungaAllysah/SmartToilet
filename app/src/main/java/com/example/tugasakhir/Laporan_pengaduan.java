@@ -1,7 +1,9 @@
 package com.example.tugasakhir;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,7 +38,9 @@ public class Laporan_pengaduan extends AppCompatActivity {
         rvLaporanPengaduan.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvLaporanPengaduan.setAdapter(adapter);
 
-        loadItems(adapter);
+        int chosenId = getIntent().getIntExtra(KEY_CHOSEN_ID, -1);
+
+        loadItems(adapter, (chosenId != -1)? chosenId : null);
     }
 
     private void deleteItem(Integer itemId) {
@@ -49,7 +53,7 @@ public class Laporan_pengaduan extends AppCompatActivity {
                         Toast.makeText(this, "Keluhan gagal terhapus", Toast.LENGTH_SHORT).show();
                     }
 
-                    loadItems(adapter);
+                    loadItems(adapter, null);
                 },
                 error -> {
                     error.printStackTrace();
@@ -61,7 +65,7 @@ public class Laporan_pengaduan extends AppCompatActivity {
         queue.add(request);
     }
 
-    private void loadItems(LaporanPengaduanAdapter pengaduanAdapter) {
+    private void loadItems(LaporanPengaduanAdapter pengaduanAdapter, Integer highlightedId) {
         SharedPreferencesManager man = new SharedPreferencesManager(this);
         Integer keretaId = man.getIdKereta();
         JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, VolleyConfig.HOST_URL + "laporanpengaduan.php?id=" + keretaId, null, res -> {
@@ -87,7 +91,7 @@ public class Laporan_pengaduan extends AppCompatActivity {
                 }
             }
 
-            pengaduanAdapter.update(list);
+            pengaduanAdapter.update(list, highlightedId);
 
         }, error -> {
             error.printStackTrace();
@@ -96,5 +100,13 @@ public class Laporan_pengaduan extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(req);
+    }
+
+    private static final String KEY_CHOSEN_ID = "key-chosen-id";
+
+    public static void launch(Context context, Integer id) {
+        context.startActivity(
+                new Intent(context, Laporan_pengaduan.class).putExtra(KEY_CHOSEN_ID, id)
+        );
     }
 }

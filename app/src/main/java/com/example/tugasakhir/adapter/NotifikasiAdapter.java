@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -26,9 +28,11 @@ import java.util.Map;
 public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.ViewHolder> {
 
     private final List<Notifikasi> list;
+    private final ItemRootOnClickListener onClickListener;
 
-    public NotifikasiAdapter(List<Notifikasi> list) {
+    public NotifikasiAdapter(List<Notifikasi> list, ItemRootOnClickListener onClickListener) {
         this.list = list;
+        this.onClickListener = onClickListener;
     }
 
     @NonNull
@@ -50,12 +54,14 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.Vi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        ConstraintLayout constraintLayout;
         TextView tvJudul;
         CheckBox checkBoxStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            constraintLayout = itemView.findViewById(R.id.root_notifikasi);
             tvJudul = itemView.findViewById(R.id.tv_notifikasi);
             checkBoxStatus = itemView.findViewById(R.id.check_notifikasi);
         }
@@ -63,6 +69,7 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.Vi
         public void bind(int position) {
             Notifikasi item = list.get(position);
 
+            constraintLayout.setOnClickListener(view -> onClickListener.OnClickListener(item.id));
             tvJudul.setText(item.isi);
             checkBoxStatus.setChecked(item.status);
 
@@ -96,5 +103,13 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.Vi
             RequestQueue requestQueue = Volley.newRequestQueue(view.getContext());
             requestQueue.add(req);
         }
+    }
+
+    interface ItemOnCheckedChangeListener {
+        void OnCheckedChangedListener(Context context, Integer id, boolean isChecked);
+    }
+
+    public interface ItemRootOnClickListener {
+        void OnClickListener(Integer id);
     }
 }

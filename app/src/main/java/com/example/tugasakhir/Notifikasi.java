@@ -49,7 +49,9 @@ public class Notifikasi extends AppCompatActivity {
 
             RecyclerView rvNotifikasi = findViewById(R.id.rv_notifikasi);
             rvNotifikasi.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            rvNotifikasi.setAdapter(new NotifikasiAdapter(list));
+            rvNotifikasi.setAdapter(new NotifikasiAdapter(list, id -> {
+                Laporan_pengaduan.launch(this, id);
+            }));
         }, error -> {
             error.printStackTrace();
             Toast.makeText(this, "Something's wrong", Toast.LENGTH_SHORT).show();

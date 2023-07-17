@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tugasakhir.R;
 import com.example.tugasakhir.model.LaporanPengaduan;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
+import java.util.Objects;
 
 public class LaporanPengaduanAdapter extends RecyclerView.Adapter<LaporanPengaduanAdapter.ViewHolder> {
 
     private final List<LaporanPengaduan> list;
     private final OnDeleteClickListener onDelete;
+    private Integer highlightedId = -1;
 
     public LaporanPengaduanAdapter(
             List<LaporanPengaduan> list,
@@ -47,12 +50,14 @@ public class LaporanPengaduanAdapter extends RecyclerView.Adapter<LaporanPengadu
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        MaterialCardView root;
         TextView tvJudul, tvTanggal, tvKereta, tvIsi, tvKeterangan, tvStatus;
         ImageButton btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            root = itemView.findViewById(R.id.root);
             tvJudul = itemView.findViewById(R.id.tv_laporan_judul);
             tvTanggal = itemView.findViewById(R.id.tv_laporan_tanggal);
             tvKereta = itemView.findViewById(R.id.tv_laporan_kereta);
@@ -74,7 +79,10 @@ public class LaporanPengaduanAdapter extends RecyclerView.Adapter<LaporanPengadu
             tvKereta.setText(location);
             tvIsi.setText(item.isi);
             tvKeterangan.setText(item.keterangan);
-            tvStatus.setText((item.Status)? "Sudah teratasi" : "Belum teratasi");
+
+            if (Objects.equals(highlightedId, item.id)) {
+                root.setCardBackgroundColor(0x33000000);
+            }
 
             btnDelete.setOnClickListener(view -> {
                 onDelete.onClick(item.id);
@@ -85,6 +93,13 @@ public class LaporanPengaduanAdapter extends RecyclerView.Adapter<LaporanPengadu
     public void update(List<LaporanPengaduan> newList) {
         list.clear();
         list.addAll(newList);
+        notifyDataSetChanged();
+    }
+
+    public void update(List<LaporanPengaduan> newList, Integer highlightedId) {
+        list.clear();
+        list.addAll(newList);
+        this.highlightedId = highlightedId;
         notifyDataSetChanged();
     }
 
