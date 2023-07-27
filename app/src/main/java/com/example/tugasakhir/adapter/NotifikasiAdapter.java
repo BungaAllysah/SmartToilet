@@ -19,16 +19,20 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.tugasakhir.R;
 import com.example.tugasakhir.VolleyConfig;
+import com.example.tugasakhir.model.ComplaintCategory;
 import com.example.tugasakhir.model.Notifikasi;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.ViewHolder> {
 
-    private final List<Notifikasi> list;
+    private List<Notifikasi> list;
     private final ItemRootOnClickListener onClickListener;
+    private List<ComplaintCategory> complaintCategories = new ArrayList<>();
 
     public NotifikasiAdapter(List<Notifikasi> list, ItemRootOnClickListener onClickListener) {
         this.list = list;
@@ -69,8 +73,18 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.Vi
         public void bind(int position) {
             Notifikasi item = list.get(position);
 
+            Integer categoryId = Integer.parseInt(item.isi);
+
+            String category = "";
+
+            for (ComplaintCategory complaintCategory : complaintCategories) {
+                if (Objects.equals(complaintCategory.id, categoryId)) {
+                    category = complaintCategory.name;
+                }
+            }
+
             constraintLayout.setOnClickListener(view -> onClickListener.OnClickListener(item.id));
-            tvJudul.setText(item.isi);
+            tvJudul.setText(category);
             checkBoxStatus.setChecked(item.status);
 
             checkBoxStatus.setOnCheckedChangeListener((view, isChecked) -> {
@@ -103,6 +117,17 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.Vi
             RequestQueue requestQueue = Volley.newRequestQueue(view.getContext());
             requestQueue.add(req);
         }
+    }
+
+    public void update(List<Notifikasi> newList) {
+        list.clear();
+        list.addAll(newList);
+        notifyDataSetChanged();
+    }
+
+    public void setComplaints(List<ComplaintCategory> newList) {
+        complaintCategories.clear();
+        complaintCategories.addAll(newList);
     }
 
     interface ItemOnCheckedChangeListener {
