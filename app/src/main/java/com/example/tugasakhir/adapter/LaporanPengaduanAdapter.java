@@ -3,7 +3,6 @@ package com.example.tugasakhir.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,7 +51,6 @@ public class LaporanPengaduanAdapter extends RecyclerView.Adapter<LaporanPengadu
 
         MaterialCardView root;
         TextView tvJudul, tvTanggal, tvKereta, tvIsi, tvKeterangan, tvStatus;
-        ImageButton btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,7 +62,6 @@ public class LaporanPengaduanAdapter extends RecyclerView.Adapter<LaporanPengadu
             tvIsi = itemView.findViewById(R.id.tv_laporan_isi);
             tvKeterangan = itemView.findViewById(R.id.tv_laporan_keterangan);
             tvStatus = itemView.findViewById(R.id.tv_laporan_status);
-            btnDelete  = itemView.findViewById(R.id.btn_pengaduan_delete);
         }
 
         public void bind(int position) {
@@ -79,15 +76,11 @@ public class LaporanPengaduanAdapter extends RecyclerView.Adapter<LaporanPengadu
             tvKereta.setText(location);
             tvIsi.setText(item.isi);
             tvKeterangan.setText(item.keterangan);
-            tvStatus.setText((item.Status)? "Sudah teratasi" : "Belum ter∂atasi");
+            tvStatus.setText((item.Status)? "Sudah teratasi" : "Belum teratasi");
 
             if (Objects.equals(highlightedId, item.id)) {
                 root.setCardBackgroundColor(0x33000000);
             }
-
-            btnDelete.setOnClickListener(view -> {
-                onDelete.onClick(item.id);
-            });
         }
     }
 

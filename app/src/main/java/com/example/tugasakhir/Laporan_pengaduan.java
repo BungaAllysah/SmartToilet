@@ -23,6 +23,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,24 +81,28 @@ public class Laporan_pengaduan extends AppCompatActivity {
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, VolleyConfig.ANIN_HOST_URL + "complaint", null, res -> {
 
             try {
-                JSONArray arr = res.getJSONArray("data");
+                JSONObject data = res.getJSONObject("data");
+                JSONArray arr = data.getJSONArray("data");
 
                 List<LaporanPengaduan> list = new ArrayList<>();
 
-                for (int i = 0; i < res.length(); i++) {
+                for (int i = 0; i < arr.length(); i++) {
                     try {
                         JSONObject obj = arr.getJSONObject(i);
+
+                        Instant instant = Instant.parse(obj.getString("created_at"));
+                        LocalDateTime dateTime = LocalDateTime.from(instant.atOffset(ZoneOffset.ofHours(7)));
 
                         list.add(new LaporanPengaduan(
                                 obj.getInt("id"),
                                 obj.getString("name"),
-                                "18 Juli 2023",
+                                dateTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)),
                                 keretaId.toString(),
                                 obj.getString("wagon_id"),
                                 "Tidak ada",
                                 obj.getString("content"),
                                 "",
-                                obj.getString("status").equals("1")
+                                obj.getString("status").equals("Teratasi")
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
