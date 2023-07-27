@@ -9,9 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tugasakhir.R;
+import com.example.tugasakhir.model.ComplaintCategory;
 import com.example.tugasakhir.model.LaporanPengaduan;
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +22,7 @@ public class LaporanPengaduanAdapter extends RecyclerView.Adapter<LaporanPengadu
     private final List<LaporanPengaduan> list;
     private final OnDeleteClickListener onDelete;
     private Integer highlightedId = -1;
+    private List<ComplaintCategory> complaints = new ArrayList<>();
 
     public LaporanPengaduanAdapter(
             List<LaporanPengaduan> list,
@@ -71,10 +74,20 @@ public class LaporanPengaduanAdapter extends RecyclerView.Adapter<LaporanPengadu
                     String.format("%s (%s)", item.kereta, item.gerbong):
                     String.format("%s (%s, %s)", item.kereta, item.gerbong, item.kursi);
 
+            Integer categoryId = Integer.parseInt(item.isi);
+
+            String category = "";
+
+            for (ComplaintCategory complaintCategory : complaints) {
+                if (Objects.equals(complaintCategory.id, categoryId)) {
+                    category = complaintCategory.name;
+                }
+            }
+
             tvJudul.setText(item.judul);
             tvTanggal.setText(item.tanggal);
             tvKereta.setText(location);
-            tvIsi.setText(item.isi);
+            tvIsi.setText(category);
             tvKeterangan.setText(item.keterangan);
             tvStatus.setText((item.Status)? "Sudah teratasi" : "Belum teratasi");
 
@@ -95,6 +108,11 @@ public class LaporanPengaduanAdapter extends RecyclerView.Adapter<LaporanPengadu
         list.addAll(newList);
         this.highlightedId = highlightedId;
         notifyDataSetChanged();
+    }
+
+    public void setComplaints(List<ComplaintCategory> newList) {
+        complaints.clear();
+        complaints.addAll(newList);
     }
 
     public interface OnDeleteClickListener {
