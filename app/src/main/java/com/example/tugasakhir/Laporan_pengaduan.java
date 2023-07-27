@@ -1,9 +1,9 @@
 package com.example.tugasakhir;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.tugasakhir.adapter.LaporanPengaduanAdapter;
 import com.example.tugasakhir.data.SharedPreferencesManager;
 import com.example.tugasakhir.model.LaporanPengaduan;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,7 +42,7 @@ public class Laporan_pengaduan extends AppCompatActivity {
 
         int chosenId = getIntent().getIntExtra(KEY_CHOSEN_ID, -1);
 
-        loadItems(adapter, (chosenId != -1)? chosenId : null);
+        loadItems2(adapter, (chosenId != -1)? chosenId : null);
     }
 
     private void deleteItem(Integer itemId) {
@@ -63,6 +65,55 @@ public class Laporan_pengaduan extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
+    }
+
+    private void loadItems2(
+            LaporanPengaduanAdapter pengaduanAdapter,
+            Integer highlightedId
+    ) {
+        SharedPreferencesManager man = new SharedPreferencesManager(this);
+        Integer keretaId = man.getIdKereta();
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, VolleyConfig.ANIN_HOST_URL + "complaint", null, res -> {
+
+            try {
+                JSONArray arr = res.getJSONArray("data");
+
+                List<LaporanPengaduan> list = new ArrayList<>();
+
+                for (int i = 0; i < res.length(); i++) {
+                    try {
+                        JSONObject obj = arr.getJSONObject(i);
+
+                        list.add(new LaporanPengaduan(
+                                obj.getInt("id"),
+                                obj.getString("name"),
+                                "18 Juli 2023",
+                                keretaId.toString(),
+                                obj.getString("wagon_id"),
+                                "Tidak ada",
+                                obj.getString("content"),
+                                "",
+                                obj.getString("status").equals("1")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                pengaduanAdapter.update(list, highlightedId);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }, error -> {
+            error.printStackTrace();
+            Toast.makeText(this, "Something's wrong", Toast.LENGTH_SHORT).show();
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(req);
     }
 
     private void loadItems(LaporanPengaduanAdapter pengaduanAdapter, Integer highlightedId) {

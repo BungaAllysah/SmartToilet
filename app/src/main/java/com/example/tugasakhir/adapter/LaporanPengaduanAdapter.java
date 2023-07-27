@@ -79,6 +79,7 @@ public class LaporanPengaduanAdapter extends RecyclerView.Adapter<LaporanPengadu
             tvKereta.setText(location);
             tvIsi.setText(item.isi);
             tvKeterangan.setText(item.keterangan);
+            tvStatus.setText((item.Status)? "Sudah teratasi" : "Belum ter∂atasi");
 
             if (Objects.equals(highlightedId, item.id)) {
                 root.setCardBackgroundColor(0x33000000);

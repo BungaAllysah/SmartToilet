@@ -19,6 +19,8 @@ import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.tugasakhir.data.SharedPreferencesManager;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
@@ -58,6 +60,8 @@ public class dashboard extends AppCompatActivity {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }));
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("/sensor/");
 
         TextInputLayout pililhtoilet = findViewById(R.id.til_pilihtoilet);
         getToilet((AutoCompleteTextView) pililhtoilet.getEditText());

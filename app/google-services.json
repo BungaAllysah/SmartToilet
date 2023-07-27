@@ -1,36 +1,27 @@
 {
   "project_info": {
-    "project_number": "907507656989",
-    "project_id": "smart-toilet-91e45",
-    "storage_bucket": "smart-toilet-91e45.appspot.com"
+    "project_number": "786579725508",
+    "firebase_url": "https://esp32-data-base-d16f0-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "esp32-data-base-d16f0",
+    "storage_bucket": "esp32-data-base-d16f0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:907507656989:android:09219fd861b8a672c2d9f4",
+        "mobilesdk_app_id": "1:786579725508:android:0da05b2737e22bfd143d91",
         "android_client_info": {
           "package_name": "com.example.tugasakhir"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "907507656989-ermaa2qipeakfibdjhkij8g2ads496ih.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDkFi2_unYpM-Sf0-KeT2PGwZJJSSScI3M"
+          "current_key": "AIzaSyCT4z1C3EgzQI3VvWHBXi5wXS00kZLf2so"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "907507656989-ermaa2qipeakfibdjhkij8g2ads496ih.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

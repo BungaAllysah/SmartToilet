@@ -91,7 +91,10 @@ public class HalamanPengaduan extends AppCompatActivity {
                 } else if (response.contains("failure")) {
                     Toast.makeText(this, "Gagal terkirim", Toast.LENGTH_SHORT).show();
                 }
-            }, error -> Toast.makeText(this, error.toString().trim(), Toast.LENGTH_SHORT).show()){
+            }, error -> {
+                error.printStackTrace();
+                Toast.makeText(this, error.toString().trim(), Toast.LENGTH_SHORT).show();
+            }){
                 @NonNull
                 @Override
                 protected Map<String, String> getParams() {

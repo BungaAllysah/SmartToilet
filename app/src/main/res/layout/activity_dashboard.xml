@@ -37,7 +37,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_volume_p"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="128dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:enabled="false"
         app:suffixText="%">
@@ -51,7 +51,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_konsumsi_ls"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="128dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:enabled="false"
         app:suffixText="%">
@@ -108,6 +108,7 @@
         android:orientation="vertical"
         app:constraint_referenced_ids="textView4,textView5,til_volume_p,til_konsumsi_ls,til_volume_m3,til_konsumsi_ml"
         app:flow_horizontalGap="8dp"
+        app:flow_horizontalStyle="spread"
         app:flow_maxElementsWrap="2"
         app:flow_verticalGap="8dp"
         app:flow_wrapMode="aligned"

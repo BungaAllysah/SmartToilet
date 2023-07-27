@@ -19,13 +19,12 @@
             android:id="@+id/tv_laporan_keterangan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Air mendadak kecil" />
+            tools:text="Air mendadak kecil" />
 
         <TextView
             android:id="@+id/tv_laporan_judul"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             tools:text="Laporan 1" />
 
@@ -40,20 +39,18 @@
             android:id="@+id/tv_laporan_kereta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kereta 1/Gerbong 2" />
+            tools:text="Kereta 1/Gerbong 2" />
 
         <TextView
             android:id="@+id/tv_laporan_isi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
             tools:text="Toilet kotor" />
 
         <TextView
             android:id="@+id/tv_laporan_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             tools:text="Sudah Teratasi" />
 

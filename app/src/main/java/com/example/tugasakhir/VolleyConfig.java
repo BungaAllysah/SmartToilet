@@ -4,7 +4,7 @@ public class VolleyConfig {
     private static String http;
     public static final String HOST_URL =
             //"http://192.168.100.248/tugas_akhir/";
-       "http://10.0.2.2/tugas_akhir/";
+       "https://android.smartoiletka.my.id/";
        // "http://192.168.51.35/tugas_akhir/";
             //"http://192.168.100.41/tugas_akhir/";
 
