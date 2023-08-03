@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
@@ -19,8 +20,11 @@ import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.tugasakhir.data.SharedPreferencesManager;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
@@ -28,8 +32,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class dashboard extends AppCompatActivity {
 
@@ -91,14 +93,12 @@ public class dashboard extends AppCompatActivity {
         TextInputLayout tilKonsumsiPersen = findViewById(R.id.til_konsumsi_ls);
         TextInputLayout tilKonsumsiMl = findViewById(R.id.til_konsumsi_ml);
 
-        TimerTask tt = new TimerTask() {
-            @Override
-            public void run() {
-                updateSensor(tilVolumePersen.getEditText(), tilVolumeL.getEditText(), tilKonsumsiPersen.getEditText(), tilKonsumsiMl.getEditText());
-            }
-        };
-        Timer t = new Timer();
-        t.scheduleAtFixedRate(tt, 0L, 1000L);
+        getRealtime(
+                tilVolumePersen.getEditText(),
+                tilVolumeL.getEditText(),
+                tilKonsumsiPersen.getEditText(),
+                tilKonsumsiMl.getEditText()
+        );
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -138,6 +138,46 @@ public class dashboard extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(req);
+    }
+
+    private void getRealtime(
+            EditText etVolumePersen,
+            EditText etVolumeLiter,
+            EditText etKonsumsiAirPersen,
+            EditText etKonsumsiAirMl
+    ) {
+        SharedPreferencesManager man = new SharedPreferencesManager(this);
+        String firebaseId = man.getKeretaFirebaseId();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("/sensor/" + firebaseId);
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Double volNow = (Double) snapshot.child("vol_sisa").getValue();
+                Long volUsage = (Long) snapshot.child("vol_total").getValue();
+
+                if (volNow == null) {
+                    volNow = 0.0;
+                }
+
+                if (volUsage == null) {
+                    volUsage = 0L;
+                }
+
+                Double volumePercent = volNow / 250.0 * 100;
+                etVolumePersen.setText(volumePercent.toString());
+                etVolumeLiter.setText(volNow.toString());
+
+                Double volumeUsagePercent = volUsage / 250.0 * 100;
+                etKonsumsiAirPersen.setText(volumeUsagePercent.toString());
+                etKonsumsiAirMl.setText(volUsage.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                error.toException().printStackTrace();
+            }
+        });
     }
 
     private void getToilet(AutoCompleteTextView dropdown) {

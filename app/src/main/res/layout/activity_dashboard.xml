@@ -85,6 +85,7 @@
         android:layout_marginTop="109dp"
         android:layout_marginEnd="24dp"
         android:hint="pilih toilet"
+        android:visibility="gone"
         app:endIconMode="dropdown_menu"
         app:helperText=" "
         app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="90dp"
         android:orientation="vertical"
         app:constraint_referenced_ids="textView4,textView5,til_volume_p,til_konsumsi_ls,til_volume_m3,til_konsumsi_ml"
         app:flow_horizontalGap="8dp"
@@ -117,6 +118,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.38"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
@@ -134,8 +136,12 @@
 
     <Button
         android:id="@+id/btn_to_laporan"
-        android:layout_width="256dp"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:text="Laporan Pengaduan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,13 +1,12 @@
 package com.example.tugasakhir.adapter;
 
-import android.util.Log;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,17 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.tugasakhir.R;
 import com.example.tugasakhir.VolleyConfig;
 import com.example.tugasakhir.model.ComplaintCategory;
 import com.example.tugasakhir.model.Notifikasi;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.ViewHolder> {
@@ -88,31 +88,34 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.Vi
             checkBoxStatus.setChecked(item.status);
 
             checkBoxStatus.setOnCheckedChangeListener((view, isChecked) -> {
-                checkNotification(view, item.id, isChecked);
+                try {
+                    checkNotification(view, item.id, isChecked);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             });
         }
 
-        private void checkNotification(View view, int id, boolean isChecked) {
-            StringRequest req = new StringRequest(Request.Method.POST, VolleyConfig.HOST_URL + "notifcentang.php", res -> {
-                if (res.contains("success")) {
-                    Toast.makeText(view.getContext(), "Succcess!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(view.getContext(), "Failure", Toast.LENGTH_SHORT).show();
-                    Log.w(NotifikasiAdapter.class.getSimpleName(), res);
-                }
-            }, error -> {
-                error.printStackTrace();
-                Toast.makeText(view.getContext(), "Something's wrong", Toast.LENGTH_SHORT).show();
-            }) {
-                @NonNull
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> data = new HashMap<>();
-                    data.put("id", String.valueOf(id));
-                    data.put("status", (isChecked)? "1" : "0");
-                    return data;
-                }
-            };;
+        private void checkNotification(View view, int id, boolean isChecked) throws JSONException {
+            JSONObject body = new JSONObject();
+            body.put("status", isChecked? "Teratasi" : "Belum Teratasi");
+
+            JsonObjectRequest req = new JsonObjectRequest(
+                    Request.Method.POST,
+                    VolleyConfig.ANIN_HOST_URL + "complaint/" + id + "/status",
+                    body,
+                    res -> {
+                        try {
+                            String message = res.getString("message");
+
+                            Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }, error -> {
+                        error.printStackTrace();
+                        Toast.makeText(view.getContext(), "Something's wrong", Toast.LENGTH_SHORT).show();
+                    });
 
             RequestQueue requestQueue = Volley.newRequestQueue(view.getContext());
             requestQueue.add(req);

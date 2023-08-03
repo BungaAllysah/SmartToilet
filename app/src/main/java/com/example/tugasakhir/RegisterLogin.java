@@ -51,8 +51,12 @@ public class RegisterLogin extends AppCompatActivity {
                     if (json.getString("message").equals("success")) {
                         Intent intent = new Intent(RegisterLogin.this, dashboard.class);
                         SharedPreferencesManager manager = new SharedPreferencesManager(this);
+
+                        JSONObject data = json.getJSONObject("data");
                         manager.setIsLoggedIn(true);
-                        manager.setUserId(json.getJSONObject("data").getInt("id"));
+                        manager.setUserId(data.getInt("id"));
+                        manager.setKeretaAninId(data.getInt("id_kereta_anin"));
+                        manager.setKeretaFirebaseId(data.getString("id_kereta_firebase"));
 
                         startActivity(intent);
                         finish();
@@ -64,7 +68,10 @@ public class RegisterLogin extends AppCompatActivity {
                     Log.d(RegisterLogin.class.getSimpleName(), "login: " + response);
                     Toast.makeText(RegisterLogin.this, "Invalid Login Id/Password", Toast.LENGTH_SHORT).show();
                 }
-            }, error -> Toast.makeText(RegisterLogin.this, error.toString().trim(), Toast.LENGTH_SHORT).show()){
+            }, error -> {
+                error.printStackTrace();
+                Toast.makeText(RegisterLogin.this, error.toString().trim(), Toast.LENGTH_SHORT).show();
+            }){
                 @NonNull
                 @Override
                 protected Map<String, String> getParams() {

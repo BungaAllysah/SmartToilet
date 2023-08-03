@@ -106,7 +106,10 @@ public class Laporan_pengaduan extends AppCompatActivity {
         Integer keretaId = man.getIdKereta();
 
         isLoading = true;
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, VolleyConfig.ANIN_HOST_URL + "complaint?page=" + currentPage, null, res -> {
+
+        String url = VolleyConfig.ANIN_HOST_URL + "complaint?page=" + currentPage + "&kereta_id=" + man.getIdKereta();
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, res -> {
 
             try {
                 JSONObject data = res.getJSONObject("data");

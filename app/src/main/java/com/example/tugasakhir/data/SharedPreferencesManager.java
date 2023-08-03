@@ -16,6 +16,8 @@ public class SharedPreferencesManager {
     private static final String KEY_IS_LOGGED_IN = ("key-is-logged-in");
     private static final String KEY_USER_ID = "key-user-id";
     private static final String KEY_KERETA_ID = "key-kereta-id";
+    private static final String KEY_KERETA_FIREBASE = "key-kereta-fb-id";
+    private static final String KEY_KERETA_ANIN = "key-kereta-anin-id";
 
     public void setIsLoggedIn(boolean login) {
         sharedPref.edit()
@@ -45,5 +47,25 @@ public class SharedPreferencesManager {
         sharedPref.edit()
                 .putInt(KEY_KERETA_ID, value)
                 .apply();
+    }
+
+    public void setKeretaFirebaseId(String value) {
+        sharedPref.edit()
+                .putString(KEY_KERETA_FIREBASE, value)
+                .apply();
+    }
+
+    public String getKeretaFirebaseId() {
+        return sharedPref.getString(KEY_KERETA_FIREBASE, "");
+    }
+
+    public void setKeretaAninId(Integer value) {
+        sharedPref.edit()
+                .putInt(KEY_KERETA_ANIN, value)
+                .apply();
+    }
+
+    public int getKeretaAninId() {
+        return sharedPref.getInt(KEY_KERETA_ANIN, -1);
     }
 }
