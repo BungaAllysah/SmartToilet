@@ -110,6 +110,8 @@
                 <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
             </intent-filter>
         </service>
+
+        <service android:name=".service.SmokeDetectorService" />
     </application>
 
 </manifest>
