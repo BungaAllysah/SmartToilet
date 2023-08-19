@@ -48,7 +48,7 @@ public class RegisterLogin extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, response -> {
                 try {
                     JSONObject json = new JSONObject(response);
-                    if (json.getString("message").equals("success")) {
+                    if (json.getString("message").contains("success")) {
                         Intent intent = new Intent(RegisterLogin.this, dashboard.class);
                         SharedPreferencesManager manager = new SharedPreferencesManager(this);
 
