@@ -1,8 +1,10 @@
 package com.example.tugasakhir;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +26,10 @@ import java.util.List;
 
 public class Notifikasi extends AppCompatActivity {
 
+    private Integer currentPage = 1;
+    private Boolean isLoading = false;
+    private List<com.example.tugasakhir.model.Notifikasi> list = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +44,22 @@ public class Notifikasi extends AppCompatActivity {
             Laporan_pengaduan.launch(this, id);
         });
         rvNotifikasi.setAdapter(adapter);
+        rvNotifikasi.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                LinearLayoutManager layoutManager = (LinearLayoutManager) rvNotifikasi.getLayoutManager();
+
+                boolean isLastItemVisible = layoutManager.getItemCount() > 0 &&
+                        layoutManager.findLastVisibleItemPosition() + 1 >= layoutManager.getItemCount();
+
+                if (isLastItemVisible && !isLoading) {
+                    currentPage++;
+                    Log.d(Laporan_pengaduan.class.getSimpleName(), "onScrolled: " + currentPage);
+
+                    getComplains(adapter);
+                }
+            }
+        });
 
         loadComplaintCategory(adapter);
     }
@@ -84,8 +106,12 @@ public class Notifikasi extends AppCompatActivity {
     }
 
     private void getComplains(NotifikasiAdapter rvAdapter) {
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, VolleyConfig.ANIN_HOST_URL + "complaint?page=" + 1, null, res -> {
-            List<com.example.tugasakhir.model.Notifikasi> list = new ArrayList<>();
+        SharedPreferencesManager man = new SharedPreferencesManager(this);
+
+        isLoading = true;
+
+        String url = VolleyConfig.ANIN_HOST_URL + "complaint?page=" + currentPage + "&kereta_id=" + man.getKeretaAninId();
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, res -> {
 
             try {
                 JSONObject data = res.getJSONObject("data");
@@ -104,8 +130,8 @@ public class Notifikasi extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
             rvAdapter.update(list);
+            isLoading = false;
         }, error -> {
             error.printStackTrace();
             Toast.makeText(this, "Something's wrong", Toast.LENGTH_SHORT).show();

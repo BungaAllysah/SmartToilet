@@ -107,7 +107,7 @@ public class Laporan_pengaduan extends AppCompatActivity {
 
         isLoading = true;
 
-        String url = VolleyConfig.ANIN_HOST_URL + "complaint?page=" + currentPage + "&kereta_id=" + man.getIdKereta();
+        String url = VolleyConfig.ANIN_HOST_URL + "complaint?page=" + currentPage + "&kereta_id=" + man.getKeretaAninId();
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, res -> {
 

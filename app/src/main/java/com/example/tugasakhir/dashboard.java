@@ -1,5 +1,6 @@
 package com.example.tugasakhir;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.tugasakhir.data.SharedPreferencesManager;
+import com.example.tugasakhir.service.SmokeDetectorService;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,8 +42,13 @@ public class dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        startService(new Intent(this, SmokeDetectorService.class));
+
+        SharedPreferencesManager spm = new SharedPreferencesManager(this);
+
         FirebaseMessaging messaging = FirebaseMessaging.getInstance();
-        messaging.subscribeToTopic("pengaduan");
+        String topic = "pengaduan-" + spm.getKeretaAninId();
+        messaging.subscribeToTopic(topic);
         messaging.getToken()
                 .addOnCompleteListener(this, task -> {
                     if (!task.isSuccessful()) {
@@ -151,26 +158,27 @@ public class dashboard extends AppCompatActivity {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("/sensor/" + firebaseId);
 
         ref.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Double volNow = (Double) snapshot.child("vol_sisa").getValue();
-                Long volUsage = (Long) snapshot.child("vol_total").getValue();
+                Double volUsage = (Double) snapshot.child("vol_total").getValue();
 
                 if (volNow == null) {
                     volNow = 0.0;
                 }
 
                 if (volUsage == null) {
-                    volUsage = 0L;
+                    volUsage = 0.0;
                 }
 
-                Double volumePercent = volNow / 250.0 * 100;
-                etVolumePersen.setText(volumePercent.toString());
-                etVolumeLiter.setText(volNow.toString());
+                Double volumePercent = volNow / 63.829 * 100;
+                etVolumePersen.setText(String.format("%.2f", volumePercent));
+                etVolumeLiter.setText(String.format("%.2f", volNow));
 
-                Double volumeUsagePercent = volUsage / 250.0 * 100;
-                etKonsumsiAirPersen.setText(volumeUsagePercent.toString());
-                etKonsumsiAirMl.setText(volUsage.toString());
+                Double volumeUsagePercent = volUsage / 63.829 * 100;
+                etKonsumsiAirPersen.setText(String.format("%.2f", volumeUsagePercent));
+                etKonsumsiAirMl.setText(String.format("%.2f", volUsage));
             }
 
             @Override

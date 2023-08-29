@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Smart Toilet</string>
     <string name="todo">TODO</string>
-    <string name="smart_toilet">Smart Toilet</string>
+    <string name="Toliet_Pintar">Toilet pintar</string>
     <string name="selamat_datang">Selamat Datang</string>
     <string name="kondektur">Kondektur</string>
     <string name="halaman_pengaduan">Halaman Pengaduan</string>

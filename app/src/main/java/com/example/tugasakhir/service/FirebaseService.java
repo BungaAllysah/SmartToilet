@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.tugasakhir.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -31,6 +32,7 @@ public class FirebaseService extends FirebaseMessagingService {
         builder.setContentTitle(title);
         builder.setContentText(body);
         builder.setAutoCancel(true);
+        builder.setSmallIcon(R.drawable.ic_baseline_report_problem_24);
 
         Notification notification = builder.build();
 

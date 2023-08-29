@@ -13,7 +13,7 @@ import com.example.tugasakhir.data.SharedPreferencesManager;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 @SuppressLint("CustomSplashScreen")
-public class splashscreen extends AppCompatActivity {
+public class  splashscreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(@SuppressLint("UnknownNullness") Bundle savedInstanceState) {
